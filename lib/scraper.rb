@@ -24,6 +24,7 @@ class Scraper
       profile_quote: profile.css("div.profile-quote").text,
       bio: profile.css("p").text.gsub("\n", ' ').squeeze(' ')
     }
+    binding.pry
     profile.css("a").each do |link|
       student_hash[:twitter] = link.attribute("href").value if link.attribute("href").value.include? ("twitter")
       student_hash[:linkedin] = link.attribute("href").value if link.attribute("href").value.include? ("linkedin")
