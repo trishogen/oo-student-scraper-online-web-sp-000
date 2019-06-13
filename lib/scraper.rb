@@ -28,7 +28,6 @@ class Scraper
       profile_quote: profile.css("div.profile-quote").text,
       bio: profile.css("p").text.gsub("\n", ' ').squeeze(' ')
     }
-    student_hash.reject { |k, v| v.nil? }
   end
 
 end
