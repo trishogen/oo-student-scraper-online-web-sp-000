@@ -30,8 +30,10 @@ class Scraper
 
     profile.css("a").each do |link|
       LINK_TYPES.each do |k, v|
-        if link.css("img").attribute("src").value.include? (v)
-          student_hash[k] = link.attribute("href").value
+        if link.css("img").attribute("src")
+          if link.css("img").attribute("src").value.include? (v)
+            student_hash[k] = link.attribute("href").value
+          end
         end
       end
     end
