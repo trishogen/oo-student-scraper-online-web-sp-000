@@ -24,17 +24,29 @@ class Scraper
       profile_quote: profile.css("div.profile-quote").text,
       bio: profile.css("p").text.gsub("\n", ' ').squeeze(' ')
     }
-    profile.css("a").each do |link|
-      student_hash[:twitter] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("twitter")
-      student_hash[:linkedin] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("linkedin")
-      student_hash[:github] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("github")
-      student_hash[:blog] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("rss")
-    end
+    link_types = {twitter: "twitter", linkedin: "linkedin", github: "github",
+                  blog: "rss"}
 
-    # student_hash[:twitter] = profile.css("a")[1].attribute("href").value if profile.css("a")[1]
-    # student_hash[:linkedin] = profile.css("a")[2].attribute("href").value if profile.css("a")[2]
-    # student_hash[:github] = profile.css("a")[3].attribute("href").value if profile.css("a")[3]
-    # student_hash[:blog] = profile.css("a")[4].attribute("href").value if profile.css("a")[4]
+    profile.css("a").each do |link|
+      link_types.each do |k, v|
+        if link.css("img").attribute("src").value.include? (v)
+          student_hash[k] = link.attribute("href").value
+        end
+      end
+      # if link.css("img").attribute("src").value.include? ("twitter")
+      #   student_hash[:twitter] = link.attribute("href").value
+      # end
+      # if link.css("img").attribute("src").value.include? ("linkedin")
+      #   student_hash[:linkedin] = link.attribute("href").value
+      #   end
+      # if link.css("img").attribute("src").value.include? ("github")
+      #   student_hash[:github] = link.attribute("href").value
+      # end
+      # if link.css("img").attribute("src").value.include? ("rss")
+      #   student_hash[:blog] = link.attribute("href").value
+      # end
+
+    end
     student_hash
   end
 
