@@ -5,6 +5,9 @@ class Scraper
 
   @@all = []
 
+  LINK_TYPES = {twitter: "twitter", linkedin: "linkedin", github: "github",
+                blog: "rss"}
+
   def self.scrape_index_page(index_url)
     doc = Nokogiri::HTML(open(index_url))
     doc.css(".student-card").each do |student|
@@ -24,28 +27,13 @@ class Scraper
       profile_quote: profile.css("div.profile-quote").text,
       bio: profile.css("p").text.gsub("\n", ' ').squeeze(' ')
     }
-    link_types = {twitter: "twitter", linkedin: "linkedin", github: "github",
-                  blog: "rss"}
 
     profile.css("a").each do |link|
-      link_types.each do |k, v|
+      LINK_TYPES.each do |k, v|
         if link.css("img").attribute("src").value.include? (v)
           student_hash[k] = link.attribute("href").value
         end
       end
-      # if link.css("img").attribute("src").value.include? ("twitter")
-      #   student_hash[:twitter] = link.attribute("href").value
-      # end
-      # if link.css("img").attribute("src").value.include? ("linkedin")
-      #   student_hash[:linkedin] = link.attribute("href").value
-      #   end
-      # if link.css("img").attribute("src").value.include? ("github")
-      #   student_hash[:github] = link.attribute("href").value
-      # end
-      # if link.css("img").attribute("src").value.include? ("rss")
-      #   student_hash[:blog] = link.attribute("href").value
-      # end
-
     end
     student_hash
   end
