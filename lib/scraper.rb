@@ -24,12 +24,11 @@ class Scraper
       profile_quote: profile.css("div.profile-quote").text,
       bio: profile.css("p").text.gsub("\n", ' ').squeeze(' ')
     }
-    binding.pry
     profile.css("a").each do |link|
-      student_hash[:twitter] = link.attribute("href").value if link.attribute("href").value.include? ("twitter")
-      student_hash[:linkedin] = link.attribute("href").value if link.attribute("href").value.include? ("linkedin")
-      student_hash[:github] = link.attribute("href").value if link.attribute("href").value.include? ("github")
-      student_hash[:blog] = link.attribute("href").value if link.attribute("href").value.include? ("blog")
+      student_hash[:twitter] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("twitter")
+      student_hash[:linkedin] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("linkedin")
+      student_hash[:github] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("github")
+      student_hash[:blog] = link.attribute("href").value if link.css("img").attribute("src").value.include? ("rss")
     end
 
     # student_hash[:twitter] = profile.css("a")[1].attribute("href").value if profile.css("a")[1]
